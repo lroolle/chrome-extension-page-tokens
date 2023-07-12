@@ -13,7 +13,7 @@ function createTokenCounterDiv(articleTokens: number[], pageTokens: number[]) {
 }
 
 // Function to create the article content modal
-function createArticleContentModal(articleContent: string) {
+function createArticleContentModal(articleContent: string, articleText: string) {
   // Create the modal structure
   const modal = document.createElement('div')
   modal.id = 'article-content-modal'
@@ -37,24 +37,49 @@ function createArticleContentModal(articleContent: string) {
   modalContent.style.overflowY = 'auto' // Add scrollbar if content is too long
   modalContent.style.fontFamily = 'Courier, monospace' // Set font to Courier
 
-  // Create the close button
-  const closeButton = document.createElement('button')
-  closeButton.textContent = 'X'
-  closeButton.style.position = 'absolute'
-  closeButton.style.right = '20px'
-  closeButton.style.top = '10px'
-  closeButton.style.fontSize = '18px'
-  closeButton.style.border = 'none'
-  closeButton.style.background = 'none'
-  closeButton.style.cursor = 'pointer'
-  closeButton.onclick = () => {
-    modal.style.display = 'none' // Hide the modal when the close button is clicked
+  // Create the copy button
+  const copyButton = document.createElement('button')
+  copyButton.textContent = 'Copy'
+  copyButton.style.position = 'fixed'
+  copyButton.style.right = '0'
+  copyButton.style.bottom = '0'
+  copyButton.style.padding = '10px 20px'
+  copyButton.style.fontSize = '18px'
+  copyButton.style.cursor = 'pointer'
+
+  // Create the prompt
+  const prompt = document.createElement('div')
+  prompt.textContent = 'Copied to clipboard!'
+  prompt.style.display = 'none' // Initially hide the prompt
+  prompt.style.position = 'fixed'
+  prompt.style.right = '20px'
+  prompt.style.bottom = '60px' // Position it above the copy button
+  prompt.style.padding = '10px'
+  prompt.style.backgroundColor = '#4CAF50' // Green background
+  prompt.style.color = 'white' // White text
+  prompt.style.fontSize = '16px'
+  prompt.style.borderRadius = '5px'
+
+  copyButton.onclick = () => {
+    navigator.clipboard
+      .writeText(articleText) // Copy the article text to the clipboard
+      .then(() => {
+        // Show the prompt and hide it after 2 seconds
+        prompt.style.display = 'block'
+        setTimeout(() => {
+          prompt.style.display = 'none'
+        }, 2000)
+      })
+      .catch((err) => {
+        console.error('Could not copy text: ', err)
+      })
   }
 
-  // Insert the close button and article content into the modal
-  modalContent.appendChild(closeButton)
-  modalContent.innerHTML += articleContent
+  // Insert the copy button, prompt, and article content into the modal
+  modalContent.innerHTML = articleContent
+  modalContent.appendChild(copyButton)
   modal.appendChild(modalContent)
+  document.body.appendChild(prompt) // Append the prompt to the body
 
   return modal
 }
@@ -139,7 +164,7 @@ const tokenCounterDiv = createTokenCounterDiv(articleTokens, pageTokens)
 styleTokenCounterDiv(tokenCounterDiv)
 
 // Create the article content modal
-const articleContentModal = createArticleContentModal(articleContent)
+const articleContentModal = createArticleContentModal(articleContent, articleText)
 
 // Add click event listener
 tokenCounterDiv.addEventListener('click', handleClick)
@@ -152,7 +177,7 @@ document.body.appendChild(articleContentModal)
 // Get the maxTokens value from Chrome storage
 chrome.storage.sync.get(['maxTokens'], function (result) {
   // Check if the token count exceeds the max tokens
-  let tokens = articleTokens.length > pageTokens.length ? articleTokens : pageTokens
+  let tokens = articleTokens.length > 0 ? articleTokens : pageTokens
   if (tokens.length > result.maxTokens) {
     // Change the font color of the div
     tokenCounterDiv.style.color = '#FF6347' // Tomato color
