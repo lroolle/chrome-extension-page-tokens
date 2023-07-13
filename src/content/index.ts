@@ -172,7 +172,7 @@ window.addEventListener('click', handleOutsideClick)
 
 // Append the divs to the body of the webpage
 document.body.appendChild(tokenCounterDiv)
-document.body.appendChild(articleContentModal)
+// document.body.appendChild(articleContentModal)
 
 // Get the maxTokens value from Chrome storage
 chrome.storage.sync.get(['maxTokens'], function (result) {
@@ -181,5 +181,14 @@ chrome.storage.sync.get(['maxTokens'], function (result) {
   if (tokens.length > result.maxTokens) {
     // Change the font color of the div
     tokenCounterDiv.style.color = '#FF6347' // Tomato color
+  }
+})
+
+console.log(articleContentModal)
+
+// Listen for messages from the popup
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+  if (request.type === 'getArticleContent') {
+    sendResponse({ articleContent: articleContent, articleText: articleText })
   }
 })
