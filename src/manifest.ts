@@ -1,9 +1,9 @@
 import { defineManifest } from '@crxjs/vite-plugin'
 
 export default defineManifest({
-  name: 'GPT Token Counter',
-  description: 'GPT token counter of current page content based on gpt-tokenizer.',
-  version: '0.0.1',
+  name: 'GPT ReadPilot',
+  description: 'GPT token counter and going to be a read pilot for the current page.',
+  version: '0.1.0',
   manifest_version: 3,
   icons: {
     '16': 'img/logo-16.png',

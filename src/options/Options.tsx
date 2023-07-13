@@ -25,7 +25,7 @@ function App() {
 
   return (
     <main style={{ width: '300px', margin: '0 auto', fontFamily: 'Arial, sans-serif' }}>
-      <h2 style={{ textAlign: 'center', color: '#444' }}>GPT Token Counter</h2>
+      <h2 style={{ textAlign: 'center', color: '#444' }}>GPT ReadPilot</h2>
 
       <div
         style={{
@@ -56,22 +56,6 @@ function App() {
           }}
         />
       </div>
-
-      <h6 style={{ marginTop: '20px', textAlign: 'center', color: '#aaa' }}>v0.0.1</h6>
-
-      <a
-        href="https://www.npmjs.com/package/create-chrome-ext"
-        target="_blank"
-        style={{
-          marginTop: '20px',
-          display: 'block',
-          textAlign: 'center',
-          color: '#888',
-          textDecoration: 'none',
-        }}
-      >
-        Power by {crx}
-      </a>
     </main>
   )
 }
