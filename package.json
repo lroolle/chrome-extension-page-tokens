@@ -1,8 +1,8 @@
 {
   "name": "gpt-page-token-counter",
-  "version": "0.0.0",
-  "author": "Eric Wang",
-  "description": "",
+  "version": "0.1.0",
+  "author": "Eric Wang <wrqatw@gmail.com>",
+  "description": "A Chrome extension to count the number of tokens in current page, and more.",
   "type": "module",
   "license": "MIT",
   "keywords": [

@@ -98,6 +98,7 @@ function styleTokenCounterDiv(div: HTMLElement) {
   div.style.fontSize = '24px'
   div.style.color = '#000000' // Initial font color
   div.style.transition = 'background-color 0.2s ease-in-out' // Add transition
+  div.className = 'noprint'
 }
 
 // Function to handle mouseover event
@@ -170,6 +171,16 @@ const articleContentModal = createArticleContentModal(articleContent, articleTex
 tokenCounterDiv.addEventListener('click', handleClick)
 window.addEventListener('click', handleOutsideClick)
 
+const style = document.createElement('style')
+style.textContent = `
+  @media print {
+    .noprint {
+      display: none !important;
+    }
+  }
+`
+document.head.appendChild(style)
+
 // Append the divs to the body of the webpage
 document.body.appendChild(tokenCounterDiv)
 // document.body.appendChild(articleContentModal)
@@ -183,8 +194,6 @@ chrome.storage.sync.get(['maxTokens'], function (result) {
     tokenCounterDiv.style.color = '#FF6347' // Tomato color
   }
 })
-
-console.log(articleContentModal)
 
 // Listen for messages from the popup
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
