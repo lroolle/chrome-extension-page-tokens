@@ -9,8 +9,15 @@ function createTokenCounterDiv(articleTokens: number[], pageTokens: number[]) {
   div.textContent = `${tokens}`
   div.title = `Article tokens: ${articleTokens.length}, Webpage tokens: ${pageTokens.length}`
   div.id = 'token-counter' // Add an id for CSS targeting
+
+  // Add an event listener to hide the div when it's clicked
+  div.addEventListener('click', () => {
+    div.style.display = 'none'
+  })
+
   return div
 }
+
 
 // Function to create the article content modal
 function createArticleContentModal(articleContent: string, articleText: string) {
